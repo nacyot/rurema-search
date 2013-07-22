@@ -2,7 +2,7 @@
 
 base_dir=$(cd "$(dirname "$0")" && pwd)
 bitclust_dir=${base_dir}/../bitclust
-doctree_dir=${base_dir}/../doctree
+doctree_dir=${base_dir}/../doctree/target/rubydoc
 
 PATH=${base_dir}/local/bin:$PATH
 
