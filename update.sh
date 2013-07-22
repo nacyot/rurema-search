@@ -1,7 +1,6 @@
 #!/bin/zsh
 
 base_dir=$(cd "$(dirname "$0")" && pwd)
-: ${RUBY:=ruby1.9.1}
 bitclust_dir=${base_dir}/../bitclust
 doctree_dir=${base_dir}/../doctree
 
@@ -40,24 +39,24 @@ update_rurema()
 {
     local version=$1
 
-    nice ${RUBY} \
+    nice ruby \
 	-I ${bitclust_dir}/lib \
 	${bitclust_dir}/bin/bitclust \
 	--database ${base_dir}/db-${version} \
 	init encoding=utf-8 version=${version}
-    nice ${RUBY} \
+    nice ruby \
 	-I ${bitclust_dir}/lib \
 	${bitclust_dir}/bin/bitclust \
 	--database ${base_dir}/db-${version} \
 	update --stdlibtree ${doctree_dir}/refm/api/src
-    nice ${RUBY} \
+    nice ruby \
 	-I ${bitclust_dir}/lib \
 	${bitclust_dir}/bin/bitclust \
 	--database ${base_dir}/db-${version} \
 	--capi \
 	update ${doctree_dir}/refm/capi/src/**/*.rd
     rm -rf ${base_dir}/public/${version}.{old,new}
-    nice ${RUBY} \
+    nice ruby \
 	-I ${base_dir}/lib \
 	-I ${bitclust_dir}/lib \
 	${base_dir}/bin/bitclust-generate-static-html \
@@ -97,7 +96,7 @@ if [ "$update_index" = "yes" ]; then
     if [ "$load_data" != "yes" ]; then
 	load_data_argument="--no-load-data"
     fi
-    nice ${RUBY} \
+    nice ruby \
 	${base_dir}/bin/bitclust-indexer \
 	${reset_argument} \
 	${load_data_argument} \
@@ -105,7 +104,7 @@ if [ "$update_index" = "yes" ]; then
 fi
 
 if [ "$clear_cache" = "yes" ]; then
-    nice ${RUBY} ${base_dir}/bin/rurema-search-clear-cache
+    nice ruby ${base_dir}/bin/rurema-search-clear-cache
 fi
 
 touch ${base_dir}/tmp/restart.txt
